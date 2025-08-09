@@ -1,10 +1,11 @@
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
+import streamlit as st
 
 load_dotenv()
 client = OpenAI()
-client.api_key = os.getenv("OPENAI_API_KEY")
+client.api_key = st.secrets("OPENAI_API_KEY")
 
 #build prompt to guide the llm's generate answer, combine top chunks with user query for context
 def create_prompt(query, chunks):

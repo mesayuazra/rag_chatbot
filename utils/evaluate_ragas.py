@@ -7,9 +7,10 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import os
 import matplotlib.pyplot as plt
+import streamlit as st
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+client = OpenAI(api_key=st.secrets('OPENAI_API_KEY'))
 
 #load dataset
 with open('data/dataset.json', 'r', encoding='utf-8') as f:

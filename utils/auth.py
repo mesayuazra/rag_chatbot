@@ -8,8 +8,8 @@ USER_DB = 'data/admin.json'
 os.makedirs('data', exist_ok=True)
 
 load_dotenv()
-ADMIN_USERNAME = os.getenv('ADMIN_USERNAME')
-ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
+ADMIN_USERNAME = st.secrets('ADMIN_USERNAME')
+ADMIN_PASSWORD = st.secrets('ADMIN_PASSWORD')
 
 #hash the password
 def hash_password(password):
