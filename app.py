@@ -18,7 +18,7 @@ import faiss
 import base64
 
 load_dotenv()
-client = OpenAI(api_key=st.secrets('OPENAI_API_KEY'))
+client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
 
 st.set_page_config(page_title='🤖 UG Chatbot', layout='wide')
 
