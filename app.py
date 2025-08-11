@@ -209,7 +209,7 @@ if st.session_state.page == 'login':
               st.error('Nama file sudah digunakan.')
             else:
               try:
-                os.rename(old_path, new_path)
+                os.rename(os.path.join('uploads', old_path), os.path.join('uploads', new_path))
                 st.success(f'Nama file berhasil diubah') 
                 
                 chunks_dict = load_chunks()
