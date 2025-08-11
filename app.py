@@ -48,6 +48,13 @@ rag.chunks = load_chunks()
 rag.index = load_faiss_index()
 #always rebuild chunks + index
 
+# Temporary cleanup button — remove after running once
+if st.sidebar.button("🗑 Clear Remaining Chunks"):
+    with open("data/chunks.json", "w", encoding="utf-8") as f:
+        json.dump({}, f)
+    if os.path.exists("data/faiss.index"):
+        os.remove("data/faiss.index")
+    st.sidebar.success("✅ Chunks.json cleared and FAISS index removed!")
 load_all_pdfs_and_index(rag)
   
 #------sidebar
@@ -67,6 +74,8 @@ with st.sidebar:
     #admin login menu 
     if st.button('🔐 Login', key='admin_login_icon', type='tertiary'):
       st.session_state.page = 'login'
+
+
 
   else:
     st.header('Admin Panel')  
