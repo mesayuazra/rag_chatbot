@@ -16,7 +16,6 @@ CHUNK_FILE = 'data/chunks.json'
 FAISS_INDEX_FILE = 'data/faiss.index'
 
 os.makedirs('data', exist_ok=True)
-os.makedirs('uploads', exist_ok=True)
 
 class RAGPipeline:
   def __init__(self):
