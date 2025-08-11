@@ -211,7 +211,7 @@ if st.session_state.page == 'login':
               st.error('Nama file sudah digunakan.')
             else:
               try:
-                os.rename(os.path.join('uploads', old_path), os.path.join('uploads', new_path))
+                os.rename(old_path, new_path)
                 st.success(f'Nama file berhasil diubah') 
                 
                 chunks_dict = load_chunks()
@@ -244,20 +244,27 @@ if st.session_state.page == 'login':
         if st.button('Hapus'):
           file_to_delete = st.session_state.delete_file
           try:
-            os.remove(os.path.join('uploads', file_to_delete ))
-                
+            file_path = os.path.join('uploads', file_to_delete)
+            if os.path.exists(file_path):
+              os.remove(file_path)
+              st.success(f"Deleted file: {file_to_delete}")
+            else:
+              st.warning(f"File not found in uploads: {file_to_delete}")  
+            
             #del from chunks.json
             chunks_dict = load_chunks()
-            if file_to_delete in chunks_dict:
-              del chunks_dict[file_to_delete]
-              save_chunks(chunks_dict)  
+            keys_to_delete = [k for k in chunks_dict if os.path.splitext(os.path.basename(k))[0] == os.path.splitext(file_to_delete)[0]]
+        
+            for key in keys_to_delete:
+              del chunks_dict[key]
+              st.info(f"Removed chunks for: {key}")
+            save_chunks(chunks_dict)  
                 
             #del from indexed.json
             indexed_files = get_indexed_files()
-            if file_to_delete in indexed_files:
-              indexed_files.remove(file_to_delete)
-              with open('indexed.json', 'w') as f:
-                json.dump(list(indexed_files), f)
+            indexed_files = [f for f in indexed_files if os.path.splitext(os.path.basename(f))[0] != os.path.splitext(file_to_delete)[0]]
+            with open('indexed.json', 'w', encoding='utf-8') as f:
+              json.dump(list(indexed_files), f)
                     
             #rebuild index
             all_chunks = []
