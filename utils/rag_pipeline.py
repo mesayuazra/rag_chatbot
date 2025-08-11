@@ -8,6 +8,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import json
 import streamlit as st
+import shutil
 
 load_dotenv()
 client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
@@ -15,7 +16,7 @@ client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
 CHUNK_FILE = 'data/chunks.json'
 FAISS_INDEX_FILE = 'data/faiss.index'
 
-os.makedirs('data/', exist_ok=True)
+os.makedirs('data', exist_ok=True)
 
 class RAGPipeline:
   def __init__(self):
@@ -138,8 +139,15 @@ def mark_file_as_indexed(filename):
     
 #load chunks
 def load_chunks(filepath=CHUNK_FILE):
+    if os.path.isdir(filepath):
+      shutil.rmtree(filepath)  # remove the folder
+      os.makedirs(os.path.dirname(filepath), exist_ok=True)  # ensure "data" exists
+      with open(filepath, "w", encoding="utf-8") as f:
+        f.write("{}")  # empty JSON object
+
+    # ✅ If file doesn't exist, return empty dict
     if not os.path.exists(filepath):
-      return {}
+        return {}
     with open(filepath, "r", encoding="utf-8") as f:
       return json.load(f)
     
