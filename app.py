@@ -24,7 +24,6 @@ st.set_page_config(page_title='🤖 UG Chatbot', layout='wide')
 
 #create folder if not exist
 os.makedirs('uploads', exist_ok=True)
-os.makedirs('data/chunks.json', exist_ok=True)
   
 #initialize session states
 if 'logged_in' not in st.session_state:
