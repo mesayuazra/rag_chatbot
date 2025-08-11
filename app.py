@@ -23,7 +23,7 @@ client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
 st.set_page_config(page_title='🤖 UG Chatbot', layout='wide')
 
 #create folder if not exist
-os.makedirs('uploads', exist_o=True)
+os.makedirs('uploads', exist_ok=True)
   
 #initialize session states
 if 'logged_in' not in st.session_state:
