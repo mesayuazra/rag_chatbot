@@ -96,8 +96,8 @@ with st.sidebar:
             shutil.rmtree("uploads")
         
         # Hapus file chunks.json kalau ada
-        if os.path.exists("chunks.json"):
-            os.remove("chunks.json")
+        if os.path.exists("data/chunks.json"):
+            os.remove("data/chunks.json")
 
         st.success("✅ Semua data berhasil direset (uploads & chunks.json).")
       except Exception as e:
