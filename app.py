@@ -16,6 +16,7 @@ import json
 import numpy as np
 import faiss
 import base64
+import shutil
 
 load_dotenv()
 client = OpenAI(api_key=st.secrets['OPENAI_API_KEY'])
@@ -88,6 +89,19 @@ with st.sidebar:
       st.session_state.mode = "chat"
       st.success("Berhasil logout.")
       st.rerun()
+    if st.button("🚨 Reset Semua Data (hapus uploads & chunks.json)"):
+      try:
+        # Hapus folder uploads kalau ada
+        if os.path.exists("uploads"):
+            shutil.rmtree("uploads")
+        
+        # Hapus file chunks.json kalau ada
+        if os.path.exists("chunks.json"):
+            os.remove("chunks.json")
+
+        st.success("✅ Semua data berhasil direset (uploads & chunks.json).")
+      except Exception as e:
+        st.error(f"❌ Gagal reset data: {e}")
         
 #----------------admin view
 if st.session_state.page == 'login':
