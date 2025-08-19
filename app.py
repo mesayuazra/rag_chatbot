@@ -69,8 +69,6 @@ with st.sidebar:
     if st.button('🔐 Login', key='admin_login_icon', type='tertiary'):
       st.session_state.page = 'login'
 
-
-
   else:
     st.header('Admin Panel')  
     if st.button("📄 Kelola PDF", type='tertiary', key='kelola_pdf_btn'):
@@ -89,19 +87,19 @@ with st.sidebar:
       st.session_state.mode = "chat"
       st.success("Berhasil logout.")
       st.rerun()
-    if st.button("🚨 Reset Semua Data (hapus uploads & chunks.json)"):
-      try:
-        # Hapus folder uploads kalau ada
-        if os.path.exists("uploads"):
-            shutil.rmtree("uploads")
+    # if st.button("🚨 Reset Semua Data (hapus uploads & chunks.json)"):
+    #   try:
+    #     # Hapus folder uploads kalau ada
+    #     if os.path.exists("uploads"):
+    #         shutil.rmtree("uploads")
         
-        # Hapus file chunks.json kalau ada
-        if os.path.exists("data/chunks.json"):
-            os.remove("data/chunks.json")
+    #     # Hapus file chunks.json kalau ada
+    #     if os.path.exists("data/chunks.json"):
+    #         os.remove("data/chunks.json")
 
-        st.success("✅ Semua data berhasil direset (uploads & chunks.json).")
-      except Exception as e:
-        st.error(f"❌ Gagal reset data: {e}")
+    #     st.success("✅ Semua data berhasil direset (uploads & chunks.json).")
+    #   except Exception as e:
+    #     st.error(f"❌ Gagal reset data: {e}")
         
 #----------------admin view
 if st.session_state.page == 'login':
@@ -332,18 +330,26 @@ if st.session_state.page == 'login':
         except Exception as e:
           st.error(f'Gagal memuat indexed file: {e}')
       with st.expander('Lihat Chunks:'):
-        try:
-            with open("data/chunks.json", "r", encoding="utf-8") as f:
-              chunks_dict = json.load(f)
-              total_chunks = sum(len(chunk_list) for chunk_list in chunks_dict.values())
-              st.info(f'Total chunks: {total_chunks}')
-              for filename, chunks in chunks_dict.items():
-                st.markdown(f"### 📄 {filename}")
-                for i, chunk in enumerate(chunks, 1):
-                  st.markdown(f"**Chunk {i}:** {chunk}")
-                  st.markdown("---")
-        except Exception as e:
-          st.error(f"Gagal memuat chunks.json: {e}")
+        chunks_path = "data/chunks.json"
+        if not os.path.exists(chunks_path):
+          st.info("Belum ada chunks")
+        else:
+          try:
+              with open("data/chunks.json", "r", encoding="utf-8") as f:
+                chunks_dict = json.load(f)
+                
+                if not chunks_dict:
+                  st.info("Belum ada chunks")
+                else:
+                  total_chunks = sum(len(chunk_list) for chunk_list in chunks_dict.values())
+                  st.info(f'Total chunks: {total_chunks}')
+                  for filename, chunks in chunks_dict.items():
+                    st.markdown(f"### 📄 {filename}")
+                    for i, chunk in enumerate(chunks, 1):
+                      st.markdown(f"**Chunk {i}:** {chunk}")
+                      st.markdown("---")
+          except Exception as e:
+            st.error(f"Gagal memuat chunks.json: {e}")
           
 #--------------user interface
 elif st.session_state.mode == "chat" and st.session_state.page == 'chat':
@@ -355,7 +361,11 @@ elif st.session_state.mode == "chat" and st.session_state.page == 'chat':
     rag = st.session_state.rag
     #retrieve relevant chunks
     if rag.index is None or not rag.chunks:
-      st.warning("⚠️ Oops, ada masalah. Silahkan dicoba lagi nanti, ya!")
+      st.warning("⚠️ Oops, ada masalah. Silahkan dicoba lagi nanti, ya! Untuk sementara, kamu bisa ke sini dulu : \n\n"
+                 "🔗 [BAAK](https://baak.gunadarma.ac.id/)\n"
+                 "🔗 [Studentsite](https://studentsite.gunadarma.ac.id/index.php/site/login)\n"
+                 "🔗 [Universitas Gunadarma](https://www.gunadarma.ac.id/)\n"
+                 )
       st.stop()
     top_chunks = st.session_state.rag.retrieve_chunks(query)
 
