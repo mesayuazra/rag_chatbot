@@ -308,8 +308,13 @@ if st.session_state.page == 'login':
         try:
           with open('indexed.json', 'r', encoding='utf-8') as f:
             indexed_files = json.load(f)
-            for name in indexed_files:
-              st.markdown(f'{name}')  
+            if indexed_files:
+              for name in indexed_files:
+                st.markdown(f'{name}')
+            else:
+              st.info("Belum ada file yang diindex")
+        except FileNotFoundError:
+          st.info("Belum ada file yang diindex")  
         except Exception as e:
           st.error(f'Gagal memuat indexed file: {e}')
       with st.expander('Lihat Chunks:'):
