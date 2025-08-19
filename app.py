@@ -362,9 +362,9 @@ elif st.session_state.mode == "chat" and st.session_state.page == 'chat':
     #retrieve relevant chunks
     if rag.index is None or not rag.chunks:
       st.warning("⚠️ Oops, ada masalah. Silahkan dicoba lagi nanti, ya! Untuk sementara, kamu bisa ke sini dulu : \n\n"
-                 "🔗 [BAAK](https://baak.gunadarma.ac.id/)\n"
-                 "🔗 [Studentsite](https://studentsite.gunadarma.ac.id/index.php/site/login)\n"
-                 "🔗 [Universitas Gunadarma](https://www.gunadarma.ac.id/)\n"
+                 "[BAAK](https://baak.gunadarma.ac.id/) -\n"
+                 "[Studentsite](https://studentsite.gunadarma.ac.id/index.php/site/login) -\n"
+                 "[Universitas Gunadarma](https://www.gunadarma.ac.id/) -\n"
                  )
       st.stop()
     top_chunks = st.session_state.rag.retrieve_chunks(query)
