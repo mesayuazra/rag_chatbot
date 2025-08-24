@@ -76,7 +76,7 @@ class RAGPipeline:
     return [all_chunks[i] for i in indices[0]] #return the retrieved chunks
 
 #chunking   
-def chunk_text_by_marker(text, marker='•', group_size=5):
+def chunk_text_by_marker(text, marker='•', group_size=2):
   lines = text.split('\n')
   chunks = []
   current_chunk = []

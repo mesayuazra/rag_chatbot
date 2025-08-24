@@ -259,9 +259,9 @@ if st.session_state.page == 'login':
             file_path = os.path.join('uploads', file_to_delete)
             if os.path.exists(file_path):
               os.remove(file_path)
-              st.success(f"Deleted file: {file_to_delete}")
+              # st.success(f"File berhasil dihapus: {file_to_delete}")
             else:
-              st.warning(f"File not found in uploads: {file_to_delete}")  
+              st.warning(f"File tidak ditemukan: {file_to_delete}")  
             
             #del from chunks.json
             chunks_dict = load_chunks()
@@ -269,7 +269,7 @@ if st.session_state.page == 'login':
         
             for key in keys_to_delete:
               del chunks_dict[key]
-              st.info(f"Removed chunks for: {key}")
+              # st.info(f"Removed chunks for: {key}")
             save_chunks(chunks_dict)  
                 
             #del from indexed.json
