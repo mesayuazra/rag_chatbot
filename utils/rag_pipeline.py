@@ -90,17 +90,20 @@ def chunk_text_by_marker(text, marker='•', group_size=2):
     if marker in line:
     # if line.isupper(): #if capitalized  
       count += 1
+      
+      if count > group_size:
+        chunks.append('\n'.join(current_chunk))
+        current_chunk = []
+        count = 1
+        
+      if current_chunk:
+        current_chunk.append("")
+        
     current_chunk.append(line)
-    
-      #if current_chunk:
-    if count == group_size:
-      chunks.append(' '.join(current_chunk))
-      current_chunk = []
-      count = 0
       
   #add remaining
   if current_chunk:
-    chunks.append(' '.join(current_chunk))
+    chunks.append('\n'.join(current_chunk))
       
   return chunks
   
