@@ -78,8 +78,8 @@ class RAGPipeline:
 #chunking   
 def chunk_text_by_marker(text, marker='•', group_size=2):
   lines = text.split('\n')
-  chunks = []
-  current_chunk = []
+  sections = []
+  current_section = []
   
   # building sections
   for line in lines:
@@ -88,20 +88,20 @@ def chunk_text_by_marker(text, marker='•', group_size=2):
       continue
     
     if line.startswith(marker):
-      if current_chunk:
-        chunks.append('\n'.join(current_chunk)) 
-        current_chunk = []
-    current_chunk.append(line)  
+      if current_section:
+        sections.append('\n'.join(current_section)) 
+        current_section = []
+    current_section.append(line)  
     
-  if current_chunk:
-    chunks.append('\n'.join(current_chunk))
+  if current_section:
+    sections.append('\n'.join(current_section))
     
-  chunks = []
-  for i in range(0, len(chunks), group_size):
-    chunk = "\n\n".join(chunks[i:i+group_size]) #adding blank line
-    chunks.append(chunk)
+  grouped_chunks = []
+  for i in range(0, len(sections), group_size):
+    chunk = "\n\n".join(sections[i:i+group_size]) #adding blank line
+    grouped_chunks.append(chunk)
       
-  return chunks
+  return grouped_chunks
   
 def load_all_pdfs_and_index(rag: RAGPipeline, folder_path="uploads"):
   if not os.path.exists(folder_path):
