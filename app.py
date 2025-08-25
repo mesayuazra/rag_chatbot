@@ -131,8 +131,12 @@ if st.session_state.page == 'login':
             new_embeddings = [get_embedding(chunk) for chunk in new_chunks]
             new_matrix = np.array(new_embeddings).astype("float32")
 
+            if len(new_matrix.shape) == 1:
+              new_matrix = np.expand_dims(new_matrix, axis=0)
+
+            embedding_dim = new_matrix.shape[1]
+            
             if st.session_state.rag.index is None:
-              embedding_dim = new_matrix.shape[1]
               st.session_state.rag.index = faiss.IndexFlatL2(embedding_dim)
             
             st.session_state.rag.index.add(new_matrix)
