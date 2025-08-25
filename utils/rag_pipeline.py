@@ -80,30 +80,26 @@ def chunk_text_by_marker(text, marker='•', group_size=2):
   lines = text.split('\n')
   chunks = []
   current_chunk = []
-  count = 0
   
+  # building sections
   for line in lines:
     line = line.strip()
     if not line:
       continue
     
-    if marker in line:
-    # if line.isupper(): #if capitalized  
-      count += 1
-      
-      if count > group_size:
-        chunks.append('\n'.join(current_chunk))
-        current_chunk = []
-        count = 1
-        
+    if line.startswith(marker):
       if current_chunk:
-        current_chunk.append("")
-        
-    current_chunk.append(line)
-      
-  #add remaining
+        chunks.append('\n'.join(current_chunk)) 
+        current_chunk = []
+    current_chunk.append(line)  
+    
   if current_chunk:
     chunks.append('\n'.join(current_chunk))
+    
+  chunks = []
+  for i in range(0, len(chunks), group_size):
+    chunk = "\n\n".join(chunks[i:i+group_size]) #adding blank line
+    chunks.append(chunk)
       
   return chunks
   

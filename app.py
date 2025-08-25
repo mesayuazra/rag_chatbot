@@ -346,7 +346,7 @@ if st.session_state.page == 'login':
                   for filename, chunks in chunks_dict.items():
                     st.markdown(f"### 📄 {filename}")
                     for i, chunk in enumerate(chunks, 1):
-                      st.markdown(f"**Chunk {i}:** {chunk}")
+                      st.markdown(f"**Chunk {i}:**\n{chunk}\n")
                       st.markdown("---")
           except Exception as e:
             st.error(f"Gagal memuat chunks.json: {e}")
