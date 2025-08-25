@@ -132,7 +132,9 @@ if st.session_state.page == 'login':
             new_matrix = np.array(new_embeddings).astype("float32")
 
             if st.session_state.rag.index is None:
-              st.session_state.rag.index = faiss.IndexFlatL2(new_matrix.shape[1])
+              embedding_dim = new_matrix.shape[1]
+              st.session_state.rag.index = faiss.IndexFlatL2(embedding_dim)
+            
             st.session_state.rag.index.add(new_matrix)
 
             chunks_dict = load_chunks()
